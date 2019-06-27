@@ -1,4 +1,6 @@
 import os
+import csv
+import glob
 import tensorflow as tf
 import numpy as np
 import pandas as pd
@@ -42,9 +44,17 @@ class Flowers102DataLoader(DataLoader):
     def load_data(self):
         image_dir = 'jpg'
 
-        csv = pd.read_csv(os.path.join(self.config.data_dir, 'imagelabels.csv'), delimiter=',')
-        image_list = csv['name'].map(lambda x: os.path.join(self.config.data_dir, image_dir, x)).values
-        label_list = csv['labels'].values
+        with open(os.path.join(self.config.data_dir, 'imagelabels.csv'), 'r') as f:
+            reader = csv.DictReader(f)
+            #get fieldnames from DictReader object and store in list
+            headers = reader.fieldnames
+        
+        #label_list = csv['labels'].values
+        label_list = headers
+        #image_list = csv['name'].map(lambda x: os.path.join(self.config.data_dir, image_dir, x)).values
+        image_list = glob.glob(os.path.join(self.config.data_dir, image_dir) + "/*.jpg")
+        
+        
         temp = np.array([image_list, label_list])
         temp = temp.transpose()
         np.random.shuffle(temp)
