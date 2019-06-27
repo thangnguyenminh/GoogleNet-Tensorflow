@@ -69,3 +69,4 @@ Please note that the current Tensorboard shows Graph has been beautified, but it
 v0.1.1
 # GoogleNet-Tensorflow
 # GoogleNet-Tensorflow
+# Downgrade numpy==1.16.1
